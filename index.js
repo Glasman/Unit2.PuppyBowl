@@ -21,11 +21,15 @@ function renderAllPuppies() {
     html = `
     <div id=${puppy.id}>
     <h2>This puppy's name is ${puppy.name} </h2>
-    <img src=${puppy.imageUrl} alt="a cute puppy" style="width: 300px; height: 300px;">
+    <img src=${puppy.imageUrl} alt="a cute puppy"; id=${puppy.id} style="width: 300px; height: 300px;">
     </div>
     `
     puppyDiv.innerHTML = html
     main.appendChild(puppyDiv)
+    puppyDiv.addEventListener("click", (event) => {
+      console.log(event.target.id);
+      // pullArtistData(event.target.id);
+    });
   }
 
   )
