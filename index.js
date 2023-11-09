@@ -1,5 +1,6 @@
 const main = document.querySelector("main");
 const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/2310-fsa-et-web-ft-sf/players/`;
+const form = document.querySelector("form");
 const state = {
   allPuppies: [],
 };
@@ -14,7 +15,6 @@ async function pullAPIAllPlayers() {
 function renderAllPuppies() {
   main.innerHTML = "";
   state.allPuppies.forEach((puppy) => {
-    console.log(puppy.name);
     const puppyDiv = document.createElement("div");
     puppyDiv.style.borderTop = "3px solid #000000";
     puppyDiv.style.borderBottom = "3px solid #000000";
@@ -33,7 +33,7 @@ function renderAllPuppies() {
 }
 
 async function renderPuppyDetails(id) {
-  const response = await fetch(APIURL + id)
+  const response = await fetch(APIURL + id);
   const puppy = await response.json();
 
   const html = `
@@ -42,11 +42,32 @@ async function renderPuppyDetails(id) {
   <p>Meet ${puppy.data.player.name}. They are a ${puppy.data.player.breed} and they are currently on the ${puppy.data.player.status}.</p>
   <button id='backButton'>Back</button>
   `;
-  main.innerHTML = html; 
+  main.innerHTML = html;
   const backButton = document.querySelector("#backButton");
   backButton.addEventListener(`click`, () => renderAllPuppies());
-
 }
+
+//function to add a new puppy
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const puppyName = document.querySelector("#puppyName");
+  const puppyBreed = document.querySelector("#puppyBreed");
+  const puppyImgURL = document.querySelector("#imgURL");
+  const puppyDescription = document.querySelector("#description");
+
+  const response = await fetch(APIURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: puppyName.value,
+      breed: puppyBreed.value,
+      imageUrl: puppyImgURL.value,
+    }),
+  });
+  const newPuppy = await response.json()
+  console.log(newPuppy)
+});
+
 pullAPIAllPlayers();
-
-
