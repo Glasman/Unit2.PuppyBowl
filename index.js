@@ -8,8 +8,9 @@ const state = {
 async function pullAPIAllPlayers() {
   const response = await fetch(APIURL);
   const puppies = await response.json();
+  
   state.allPuppies = puppies.data.players;
-  console.log(state.allPuppies);
+  
   renderAllPuppies();
 }
 function renderAllPuppies() {
@@ -35,6 +36,7 @@ function renderAllPuppies() {
 async function renderPuppyDetails(id) {
   const response = await fetch(APIURL + id);
   const puppy = await response.json();
+  console.log(puppy)
 
   const html = `
   <h2>${puppy.data.player.name}</h2>
@@ -66,8 +68,10 @@ form.addEventListener("submit", async (event) => {
       imageUrl: puppyImgURL.value,
     }),
   });
-  const newPuppy = await response.json()
-  console.log(newPuppy)
+  const responseJSON = await response.json()
+  const newPuppy = responseJSON.data.newPlayer
+  state.allPuppies.push(newPuppy)
+  renderAllPuppies()
 });
 
 pullAPIAllPlayers();
