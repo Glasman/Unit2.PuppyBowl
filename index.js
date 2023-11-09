@@ -1,21 +1,21 @@
-const main = document.querySelector('main')
-const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/2310-fsa-et-web-ft-sf/players`
+const main = document.querySelector("main");
+const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/2310-fsa-et-web-ft-sf/players/`;
 const state = {
-  allPuppies: []
-}
+  allPuppies: [],
+};
 
 async function pullAPIAllPlayers() {
-  const response = await fetch(APIURL)
+  const response = await fetch(APIURL);
   const puppies = await response.json();
-  state.allPuppies = puppies.data.players
-  console.log(state.allPuppies)
-  renderAllPuppies()
+  state.allPuppies = puppies.data.players;
+  console.log(state.allPuppies);
+  renderAllPuppies();
 }
 function renderAllPuppies() {
-  main.innerHTML = ''
+  main.innerHTML = "";
   state.allPuppies.forEach((puppy) => {
-    console.log(puppy.name)
-    const puppyDiv = document.createElement('div')
+    console.log(puppy.name);
+    const puppyDiv = document.createElement("div");
     puppyDiv.style.borderTop = "3px solid #000000";
     puppyDiv.style.borderBottom = "3px solid #000000";
     html = `
@@ -23,15 +23,28 @@ function renderAllPuppies() {
     <h2>This puppy's name is ${puppy.name} </h2>
     <img src=${puppy.imageUrl} alt="a cute puppy"; id=${puppy.id} style="width: 300px; height: 300px;">
     </div>
-    `
-    puppyDiv.innerHTML = html
-    main.appendChild(puppyDiv)
+    `;
+    puppyDiv.innerHTML = html;
+    main.appendChild(puppyDiv);
     puppyDiv.addEventListener("click", (event) => {
-      console.log(event.target.id);
-      // pullArtistData(event.target.id);
+      renderPuppyDetails(event.target.id);
     });
-  }
-
-  )
+  });
 }
-pullAPIAllPlayers()
+
+async function renderPuppyDetails(id) {
+  const response = await fetch(APIURL + id)
+  const puppy = await response.json();
+
+  const html = `
+  <h2>${puppy.data.player.name}</h2>
+  <img src=${puppy.data.player.imageUrl} />'
+  <p>Meet ${puppy.data.player.name}. They are a ${puppy.data.player.breed} and they are currently on the ${puppy.data.player.status}.</p>
+  <button id='backButton'>Back</button>
+  `;
+  main.innerHTML = html; 
+
+}
+pullAPIAllPlayers();
+
+
