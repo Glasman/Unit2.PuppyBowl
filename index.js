@@ -43,6 +43,8 @@ async function renderPuppyDetails(id) {
   <button id='backButton'>Back</button>
   `;
   main.innerHTML = html; 
+  const backButton = document.querySelector("#backButton");
+  backButton.addEventListener(`click`, () => renderAllPuppies());
 
 }
 pullAPIAllPlayers();
