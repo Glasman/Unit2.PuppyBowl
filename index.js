@@ -1,6 +1,8 @@
 const main = document.querySelector("main");
 const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/2310-fsa-et-web-ft-sf/players/`;
 const form = document.querySelector("form");
+const body = document.querySelector('body')
+body.style.backgroundColor = "#d2b48c"
 const state = {
   allPuppies: [],
 };
@@ -15,6 +17,7 @@ async function pullAPIAllPlayers() {
 }
 function renderAllPuppies() {
   main.innerHTML = "";
+  main.style.backgroundColor = '#ffebcd'
   state.allPuppies.forEach((puppy) => {
     const puppyDiv = document.createElement("div");
     puppyDiv.style.borderTop = "3px solid #000000";
